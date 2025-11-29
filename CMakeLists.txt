@@ -7,16 +7,47 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Threads REQUIRED)
 
 # Find nlohmann/json
-find_package(nlohmann_json REQUIRED)
+# Try package manager first, then fallback to local installation
+find_package(nlohmann_json QUIET)
+if(NOT nlohmann_json_FOUND)
+    message(STATUS "nlohmann/json not found in system, checking local installation...")
+    set(NLOHMANN_JSON_DIR "${CMAKE_SOURCE_DIR}/lib/third_party/json")
+    if(EXISTS "${NLOHMANN_JSON_DIR}/include/nlohmann/json.hpp")
+        message(STATUS "Found nlohmann/json in local directory: ${NLOHMANN_JSON_DIR}")
+        add_library(nlohmann_json INTERFACE)
+        target_include_directories(nlohmann_json INTERFACE "${NLOHMANN_JSON_DIR}/include")
+        add_library(nlohmann_json::nlohmann_json ALIAS nlohmann_json)
+    elseif(EXISTS "${NLOHMANN_JSON_DIR}/single_include/nlohmann/json.hpp")
+        message(STATUS "Found nlohmann/json (single header) in local directory: ${NLOHMANN_JSON_DIR}")
+        add_library(nlohmann_json INTERFACE)
+        target_include_directories(nlohmann_json INTERFACE "${NLOHMANN_JSON_DIR}/single_include")
+        add_library(nlohmann_json::nlohmann_json ALIAS nlohmann_json)
+    else
+        message(FATAL_ERROR "nlohmann/json not found. Please install it via:\n"
+            "  - Package manager: sudo apt-get install nlohmann-json3-dev\n"
+            "  - Or run: ./install_third_party.sh")
+    endif()
+else
+    message(STATUS "Found nlohmann/json via package manager")
+endif()
 
 # Find WebSocket++
+# Try system paths first, then fallback to local installation
 find_path(WEBSOCKETPP_INCLUDE_DIR 
     NAMES websocketpp/config/asio_no_tls.hpp
-    PATHS /usr/include /usr/local/include
+    PATHS 
+        /usr/include 
+        /usr/local/include
+        "${CMAKE_SOURCE_DIR}/lib/third_party/websocketpp"
+        "${CMAKE_SOURCE_DIR}/lib/third_party"
 )
 
 if(NOT WEBSOCKETPP_INCLUDE_DIR)
-    message(FATAL_ERROR "WebSocket++ not found. Please install libwebsocketpp-dev")
+    message(FATAL_ERROR "WebSocket++ not found. Please install it via:\n"
+        "  - Package manager: sudo apt-get install libwebsocketpp-dev\n"
+        "  - Or run: ./install_third_party.sh")
+else()
+    message(STATUS "Found WebSocket++ at: ${WEBSOCKETPP_INCLUDE_DIR}")
 endif()
 
 # Find Boost (required by WebSocket++)
