@@ -22,10 +22,11 @@ if(NOT nlohmann_json_FOUND)
         add_library(nlohmann_json INTERFACE)
         target_include_directories(nlohmann_json INTERFACE "${NLOHMANN_JSON_DIR}/single_include")
         add_library(nlohmann_json::nlohmann_json ALIAS nlohmann_json)
-    else
-        message(FATAL_ERROR "nlohmann/json not found. Please install it via:\n  - Package manager: sudo apt-get install nlohmann-json3-dev\n  - Or run: ./install_third_party.sh")
+    else()
+        set(ERROR_MSG "nlohmann/json not found. Install via package manager or run ./install_third_party.sh")
+        message(FATAL_ERROR ${ERROR_MSG})
     endif()
-else
+else()
     message(STATUS "Found nlohmann/json via package manager")
 endif()
 
@@ -41,7 +42,7 @@ find_path(WEBSOCKETPP_INCLUDE_DIR
 )
 
 if(NOT WEBSOCKETPP_INCLUDE_DIR)
-    message(FATAL_ERROR "WebSocket++ not found. Please install it via:\n  - Package manager: sudo apt-get install libwebsocketpp-dev\n  - Or run: ./install_third_party.sh")
+    message(FATAL_ERROR "WebSocket++ not found. Please install it via package manager (sudo apt-get install libwebsocketpp-dev) or run ./install_third_party.sh")
 else()
     message(STATUS "Found WebSocket++ at: ${WEBSOCKETPP_INCLUDE_DIR}")
 endif()
