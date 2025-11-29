@@ -1,0 +1,115 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled binary files
+*.exe
+*.out
+*.app
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+
+# Build directories
+/build/
+/bin/
+/dist/
+/Debug/
+/Release/
+/asr/build/
+/sip_caller/build
+/mod_audio_stream/build
+/call_flow_executor/build
+/examples/build
+/db/build
+
+# CMake build files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio files
+*.vcxproj*
+*.sln
+*.user
+*.filters
+*.opensdf
+*.sdf
+*.pdb
+
+# CLion and JetBrains IDEs
+.idea/
+cmake-build-*/
+
+# VSCode
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Linux files
+*~
+
+# Windows files
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Test coverage
+*.gcno
+*.gcda
+*.gcov
+
+# Conan (C++ package manager)
+conanbuildinfo.*
+conaninfo.txt
+conanfile.lock
+
+# vcpkg (C++ package manager)
+.vcpkg/
+
+# Ninja build system
+.ninja_deps
+.ninja_log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+*.egg-info/
+.egg/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
+*.egg
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+cython_debug/
+*.ipynb_checkpoints
+.ipynb_checkpoints/
+
+# TTS specific
+/tts/venv/
+/tts/__pycache__/
+/tts/models/
+/tts/*.egg-info/
+/tts/*.pyc
